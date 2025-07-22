@@ -25,9 +25,6 @@ So, MCP and connectors are really **better together**.
 - Azure Subscription (with payment method added)
 - GitHub account
 - Copilot Studio trial or developer account
-- Power Platform environment provisioned - with the following toggle on:
-
-![Get new features early toggle](./assets/newfeatures.png)
 
 ## ➕ Create a new GitHub repository based on the template
 
