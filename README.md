@@ -30,7 +30,7 @@ So, MCP and connectors are really **better together**.
 ## ➕ Create a new GitHub repository based on the template
 
 1. Select `Use this template`
-1. Select `Create a new repository
+1. Select `Create a new repository`
 
     ![](./assets/usetemplate.png)
 
