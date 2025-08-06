@@ -55,22 +55,21 @@ module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.11.
     }
     managedIdentities: {
       systemAssigned: true
-      //userAssignedResourceIds: [jokesmcpHttpTypescriptIdentity.outputs.resourceId]
     }
-    logAnalyticsWorkspaceResourceId: monitoring.outputs.logAnalyticsWorkspaceResourceId
+    appInsightsConnectionString: monitoring.outputs.applicationInsightsConnectionString
     name: '${abbrs.appManagedEnvironments}${resourceToken}'
     location: location
     zoneRedundant: false
   }
 }
 
-module jokesmcpHttpTypescriptIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.2.1' = {
-  name: 'jokesmcpHttpTypescriptidentity'
-  params: {
-    name: '${abbrs.managedIdentityUserAssignedIdentities}jokesmcpHttpTypescript-${resourceToken}'
-    location: location
-  }
-}
+//module jokesmcpHttpTypescriptIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.2.1' = {
+////  name: 'jokesmcpHttpTypescriptidentity'
+////  params: {
+////    name: '${abbrs.managedIdentityUserAssignedIdentities}jokesmcpHttpTypescript-${resourceToken}'
+////    location: location
+////  }
+//}
 module jokesmcpHttpTypescriptFetchLatestImage './modules/fetch-container-image.bicep' = {
   name: 'jokesmcpHttpTypescript-fetch-image'
   params: {
@@ -115,13 +114,13 @@ module jokesmcpHttpTypescript 'br/public:avm/res/app/container-app:0.8.0' = {
       }
     ]
     managedIdentities:{
-      systemAssigned: false
-      userAssignedResourceIds: [jokesmcpHttpTypescriptIdentity.outputs.resourceId]
+      systemAssigned: true
+      //userAssignedResourceIds: [jokesmcpHttpTypescriptIdentity.outputs.resourceId]
     }
     registries:[
       {
         server: containerRegistry.outputs.loginServer
-        identity: jokesmcpHttpTypescriptIdentity.outputs.resourceId
+        identity: containerAppsEnvironment.outputs.?systemAssignedMIPrincipalId
       }
     ]
     environmentResourceId: containerAppsEnvironment.outputs.resourceId
