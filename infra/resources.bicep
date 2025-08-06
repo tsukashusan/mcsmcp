@@ -8,7 +8,8 @@ param tags object = {}
 param jokesmcpHttpTypescriptExists bool
 
 @description('Id of the user or app to assign application roles')
-param principalId string
+
+//param principalId string
 
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = uniqueString(subscription().id, resourceGroup().id, location)
@@ -36,7 +37,8 @@ module containerRegistry 'br/public:avm/res/container-registry/registry:0.9.1' =
     networkRuleBypassOptions:'AzureServices'
     roleAssignments:[
       {
-        principalId: jokesmcpHttpTypescriptIdentity.outputs.principalId
+        #disable-next-line BCP321
+        principalId: containerAppsEnvironment.outputs.?systemAssignedMIPrincipalId
         principalType: 'ServicePrincipal'
         roleDefinitionIdOrName: resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
       }
@@ -45,9 +47,16 @@ module containerRegistry 'br/public:avm/res/container-registry/registry:0.9.1' =
 }
 
 // Container apps environment
-module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.4.5' = {
+module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.11.2' = {
   name: 'container-apps-environment'
   params: {
+    appLogsConfiguration: {
+      destination: 'azure-monitor'
+    }
+    managedIdentities: {
+      systemAssigned: true
+      //userAssignedResourceIds: [jokesmcpHttpTypescriptIdentity.outputs.resourceId]
+    }
     logAnalyticsWorkspaceResourceId: monitoring.outputs.logAnalyticsWorkspaceResourceId
     name: '${abbrs.appManagedEnvironments}${resourceToken}'
     location: location
@@ -96,7 +105,7 @@ module jokesmcpHttpTypescript 'br/public:avm/res/app/container-app:0.8.0' = {
           }
           {
             name: 'AZURE_CLIENT_ID'
-            value: jokesmcpHttpTypescriptIdentity.outputs.clientId
+            value: containerAppsEnvironment.outputs.?systemAssignedMIPrincipalId
           }
           {
             name: 'PORT'

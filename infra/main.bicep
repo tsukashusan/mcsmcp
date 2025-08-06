@@ -36,7 +36,6 @@ module resources 'resources.bicep' = {
   params: {
     location: location
     tags: tags
-    principalId: principalId
     jokesmcpHttpTypescriptExists: jokesmcpHttpTypescriptExists
   }
 }
