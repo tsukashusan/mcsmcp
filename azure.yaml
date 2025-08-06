@@ -2,7 +2,7 @@
 
 name: jokesmcp-http-typescript
 metadata:
-  template: azd-init@1.15.1
+  template: azd-init@1.18.0
 services:
   jokesmcp-http-typescript:
     project: .

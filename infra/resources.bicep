@@ -25,18 +25,20 @@ module monitoring 'br/public:avm/ptn/azd/monitoring:0.1.0' = {
   }
 }
 // Container registry
-module containerRegistry 'br/public:avm/res/container-registry/registry:0.1.1' = {
+module containerRegistry 'br/public:avm/res/container-registry/registry:0.9.1' = {
   name: 'registry'
   params: {
     name: '${abbrs.containerRegistryRegistries}${resourceToken}'
     location: location
     tags: tags
+    acrSku: 'Basic'
     publicNetworkAccess: 'Enabled'
+    networkRuleBypassOptions:'AzureServices'
     roleAssignments:[
       {
         principalId: jokesmcpHttpTypescriptIdentity.outputs.principalId
         principalType: 'ServicePrincipal'
-        roleDefinitionIdOrName: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
+        roleDefinitionIdOrName: resourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
       }
     ]
   }

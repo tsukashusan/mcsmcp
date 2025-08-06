@@ -45,7 +45,8 @@
 				"streetsidesoftware.code-spell-checker",
 				"charliermarsh.ruff",
 				"tamasfe.even-better-toml",
-				"ms-azuretools.vscode-docker"
+				"ms-azuretools.vscode-docker",
+				"ms-azuretools.vscode-bicep"
 			],
 			"settings": {
 				"dev.containers.dokerCredentialHelper": false
@@ -58,6 +59,6 @@
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"onCreateCommand": "sudo sh -c \"echo 'nameserver 8.8.8.8' >> /etc/resolv.conf\""
+	"onCreateCommand": "sudo sh -c \"echo 'nameserver 8.8.8.8' >> /etc/resolv.conf\";curl -Lo bicep https://github.com/Azure/bicep/releases/latest/download/bicep-linux-x64;chmod +x ./bicep;sudo mv ./bicep /usr/local/bin/bicep; bicep --help"
 
 }
